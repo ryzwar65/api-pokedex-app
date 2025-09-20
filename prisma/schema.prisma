@@ -1,0 +1,70 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "sqlite"
+  url      = env("DATABASE_URL")
+}
+
+model GroupPokemon {
+  id        Int      @id @default(autoincrement())
+  name      String
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+  pokemons  Pokemons[] // many-to-many
+}
+
+
+model Pokemons {
+  id           Int            @id @default(autoincrement())
+  name         String         @unique
+  image        String
+  createdAt    DateTime       @default(now())
+  updatedAt    DateTime       @updatedAt
+  abilities    Abilities[]
+  favorite     Favorite?
+  groupPokemon GroupPokemon[]
+  stats        Stats[]
+  types        Types[]
+}
+
+model Abilities {
+  id                Int      @id @default(autoincrement())
+  name              String
+  description       String
+  short_description String
+  pokemonID         Int
+  createdAt         DateTime @default(now())
+  updatedAt         DateTime @updatedAt
+  pokemons          Pokemons @relation(fields: [pokemonID], references: [id])
+}
+
+model Stats {
+  id        Int      @id @default(autoincrement())
+  name      String
+  base_stat Int
+  pokemonID Int
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+  pokemons  Pokemons @relation(fields: [pokemonID], references: [id])
+}
+
+model Types {
+  id        Int      @id @default(autoincrement())
+  name      String
+  image     String
+  pokemonID Int
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+  pokemons  Pokemons @relation(fields: [pokemonID], references: [id])
+}
+
+model Favorite {
+  id        Int      @id @default(autoincrement())
+  mark      Boolean  @default(false)
+  pokemonID Int      @unique
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+  pokemons  Pokemons @relation(fields: [pokemonID], references: [id])
+}
