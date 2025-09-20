@@ -81,6 +81,11 @@ Visit `http://localhost:5050/api/docs` to access the interactive Swagger UI docu
 http://localhost:5050/api
 ```
 
+## Swagger Documents
+```
+http://localhost:5050/api/docs
+```
+
 ## API Endpoints
 
 ### Pokemon Endpoints
